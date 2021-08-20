@@ -1,7 +1,9 @@
-from django import forms
+from django.forms import ModelForm
+from .models import User
 
-class UserForm(forms.Form):
-    user_name = forms.CharField(label='First Name', max_length=100)
-    user_email = forms.CharField(label='Email', max_length=100)
-    user_username = forms.CharField(label='Username', max_length=100)
-    user_password = forms.CharField(label='Password', max_length=100)
+# create a form with input fields which correspond to the User database fields
+class UserForm(ModelForm):
+    
+    class Meta:
+        model = User
+        fields = '__all__'

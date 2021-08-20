@@ -1,3 +1,7 @@
 from django.contrib import admin
+# import models
+from .models import User
 
-# Register your models here.
+# add the model to the admin panel UI
+admin.site.register(User)
+

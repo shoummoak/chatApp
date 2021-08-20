@@ -264,6 +264,10 @@ Website: http://emilcarlsson.se/
             msgObj.appendChild(imgTag);
             msgObj.appendChild(pTag);
             document.querySelector('#chat-log').appendChild(msgObj);
+
+            // scroll down to any new message in the chatbox 
+            $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+            $('.contact.active .preview').html('<span>You: </span>' + message);
             // document.querySelector('#chat-log').value += (message + '\n');
         };
 
