@@ -8,7 +8,7 @@ class Message(models.Model):
     sender_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='msg_sender')
     receiver_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='msg_receiver')
     content = models.CharField(max_length=500)
-    datetime = DateTimeField('message datetime')
+    datetime = DateTimeField('message datetime', auto_now_add=True)     # timestamp of message automatically added when message is created
 
 
 class Notification(models.Model):

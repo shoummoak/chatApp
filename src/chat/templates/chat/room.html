@@ -9,10 +9,13 @@
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
+    
     {{ room_name|json_script:"room-name" }}
+    <!-- {{ nile|json_script:"name" }} -->
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
+        // const name = JSON.parse(document.getElementById('name').textContent);
+        // document.write(roomName);
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -22,10 +25,11 @@
         );
 
         chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-        };
-
+            var data = JSON.parse(e.data);
+            const message = data['message'];
+            const user = data['user'];
+            document.querySelector('#chat-log').value += (message + '\n');
+        }
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
