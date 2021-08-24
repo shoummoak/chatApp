@@ -5,11 +5,13 @@
 
 {% block content %}
 
-<h2>Register</h2>
-<form method="POST" action="">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <input class="btn btn-primary" type="submit" name="register user">
-</form>
+<div>
+  <h2>Register</h2>
+  <form method="POST" action="">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit">Sumit</button>
+  </form>
+</div>
 
 {% endblock %}

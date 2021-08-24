@@ -34,7 +34,7 @@
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
     <link rel='stylesheet prefetch'
         href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
 </head>
 
 <body>
@@ -264,6 +264,10 @@ Website: http://emilcarlsson.se/
             msgObj.appendChild(imgTag);
             msgObj.appendChild(pTag);
             document.querySelector('#chat-log').appendChild(msgObj);
+
+            // scroll down to any new message in the chatbox 
+            $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+            $('.contact.active .preview').html('<span>You: </span>' + message);
             // document.querySelector('#chat-log').value += (message + '\n');
         };
 

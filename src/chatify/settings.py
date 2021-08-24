@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'chat',
     # third party
     'crispy_forms',
+    'widget_tweaks',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
