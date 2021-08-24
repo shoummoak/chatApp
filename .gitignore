@@ -1,5 +1,8 @@
 env/
 Dummy*MVC*Structure/
 src/accounts/__pycache__/
+src/accounts/migrations/__pycache__/
 src/chat/__pycache__/
+src/chat/migrations/__pycache__/
 src/chatify/__pycache__/
+src/chatify/migrations/__pycache__/
