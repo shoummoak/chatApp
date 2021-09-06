@@ -53,7 +53,7 @@ def login(request):
             print('username: {}\npass: {}'.format(username_or_email, password))
             if authenticate_login(username_or_email, password):
                 print('Login Successful')
-                return redirect('http://127.0.0.1:8000/dummy/')
+                return redirect('http://127.0.0.1:8000/user/{}/1'.format(username_or_email))
             else:
                 print('Login Failed')
             return redirect('http://127.0.0.1:8000/login/')

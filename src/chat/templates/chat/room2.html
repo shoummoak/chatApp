@@ -56,8 +56,8 @@ Website: http://emilcarlsson.se/
         <div id="sidepanel">
             <div id="profile">
                 <div class="wrap">
-                    <img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
-                    <p>Mike Ross</p>
+                    <img id="profile-img" src= {{user.img}} class="online" alt="" />
+                    <p>{{ user.name }}</p>
                     <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
                     <div id="status-options">
                         <ul>
@@ -91,24 +91,13 @@ Website: http://emilcarlsson.se/
             </div>
             <div id="contacts">
                 <ul>
-                    <li class="contact">
-                        <div class="wrap">
-                            <span class="contact-status online"></span>
-                            <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
-                            <div class="meta">
-                                <p class="name">Louis Litt</p>
-                                <p class="preview">You just got LITT up, Mike.</p>
-                            </div>
-                        </div>
-                    </li>
                     <li class="contact active">
                         <div class="wrap">
                             <span class="contact-status busy"></span>
-                            <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+                            <img src={{user2.img}} alt="" />
                             <div class="meta">
-                                <p class="name">Harvey Specter</p>
-                                <p class="preview">Wrong. You take the gun, or you pull out a bigger one. Or, you call
-                                    their bluff. Or, you do any one of a hundred and forty six other things.</p>
+                                <p class="name">{{user2.name}}</p>
+                                <p class="preview"></p>
                             </div>
                         </div>
                     </li>
@@ -122,8 +111,8 @@ Website: http://emilcarlsson.se/
         </div>
         <div class="content">
             <div class="contact-profile">
-                <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                <p>Harvey Specter</p>
+                <img src={{user2.img}} alt="" />
+                <p>{{user2.name}}</p>
                 <div class="social-media">
                     <i class="fa fa-facebook" aria-hidden="true"></i>
                     <i class="fa fa-twitter" aria-hidden="true"></i>
@@ -132,40 +121,19 @@ Website: http://emilcarlsson.se/
             </div>
             <div class="messages">
                 <ul id="chat-log">
-                    <li class="sent">
-                        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-                        <p>How the hell am I supposed to get a jury to believe you when I am not even sure that I do?!
-                        </p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>When you're backed against the wall, break the god damn thing down.</p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>Excuses don't win championships.</p>
-                    </li>
-                    <li class="sent">
-                        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-                        <p>Oh yeah, did Michael Jordan tell you that?</p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>No, I told him that.</p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>What are your choices when someone puts a gun to your head?</p>
-                    </li>
-                    <li class="sent">
-                        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-                        <p>What are you talking about? You do what they say or they shoot you.</p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do
-                            any one of a hundred and forty six other things.</p>
-                    </li>
+                    {% for message in message_list %}
+                        {% if message.sender_user == user.username %}
+                            <li class="sent" >
+                                <img src={{user.img}} alt="" />
+                                <p>{{message.content}}</p>
+                            </li>
+                        {% else %}
+                            <li class="replies">
+                                <img src={{user2.img}} alt="" />
+                                <p>{{message.content}}</p>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
                 </ul>
             </div>
             <div class="message-input">
@@ -239,8 +207,11 @@ Website: http://emilcarlsson.se/
 //# sourceURL=pen.js
     </script> -->
     {{ room_name|json_script:"room-name" }}
+    {{ user.username|json_script:"user-profile" }}
     <script>
-        var roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        var roomName = JSON.parse(document.getElementById("room-name").textContent);
+        var username = JSON.parse(document.getElementById("user-profile").textContent);
 
         var chatSocket = new WebSocket(
             'ws://'
@@ -253,9 +224,14 @@ Website: http://emilcarlsson.se/
         chatSocket.onmessage = function (e) {
             var data = JSON.parse(e.data);
             var message = data['message'];
+            var message_user = data['user'];
 
             var msgObj = document.createElement('li');
-            msgObj.className = 'sent';
+            if (username == message_user){
+                msgObj.className = 'sent';
+            } else{
+                msgObj.className = 'replies';
+            }
             var imgTag = document.createElement('img');
             var pTag = document.createElement('p');
             imgTag.src = "http://emilcarlsson.se/assets/harveyspecter.png";
@@ -286,7 +262,8 @@ Website: http://emilcarlsson.se/
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'message': message
+                'message': message,
+                'user': username,
             }));
             messageInputDom.value = '';
         };
