@@ -5,13 +5,11 @@ from accounts.models import User
 from .models import *
 
 # views
-
-# def index(request):
-#     return render(request, 'chat/index.html')
-
 def room(request, user, room_name):
 
     # grab the other user (NOT self)
+    print(room_name)
+    print(Socket.objects.filter(socket=room_name)[0])
     socket = Socket.objects.filter(socket=room_name)[0]
     if socket.user1.username == user:
         user2 = socket.user2.username
@@ -30,3 +28,40 @@ def room(request, user, room_name):
     }
 
     return render(request, 'chat/room2.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def save_message(message, sender, receiver):
+    print("message saved")
+    return True
+
+def send_message(message):
+    print("message sent")
+    return True
+
+def receive_message(message):
+    print("message received")
+    return True
+
+def connect():
+    print("connected")
+    return True
+
+def disconnect():
+    print("connection closed")
+    return True
