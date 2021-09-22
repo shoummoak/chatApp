@@ -37,31 +37,3 @@ def room(request, user, room_name):
 
 
 
-
-
-
-
-
-
-
-
-
-def save_message(message, sender, receiver):
-    print("message saved")
-    return True
-
-def send_message(message):
-    print("message sent")
-    return True
-
-def receive_message(message):
-    print("message received")
-    return True
-
-def connect():
-    print("connected")
-    return True
-
-def disconnect():
-    print("connection closed")
-    return True
