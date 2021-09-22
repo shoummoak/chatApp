@@ -6,6 +6,7 @@ from .models import User
 from chat.models import Socket, Message
 from chat.views import *
 
+
 # testing the User model
 class UserModelTestCase(TestCase):
     
